@@ -23,27 +23,16 @@
 #'
 #'
 #'
-PNMFfun <- function(X, rank=10, tol=1e-5, maxIter=5000, verboseN=FALSE, zerotol=1e-10, method="KL", label=NULL, mu=1, lambda=0.01, seed=123) {
-  #print('start')
-  #print(proc.time()[3])
+PNMFfun <- function(X, rank=10, tol=1e-3, maxIter=500, verboseN=FALSE, zerotol=1e-10, method="KL", label=NULL, mu=1, lambda=0.01, seed=123) {
   #nmfmod <- NMF::nmf(X, rank)
   set.seed(seed)
   Init <- irlba(X, nv = rank)
   Winit <- Init$u
   Winit[Winit < 0] <- -Winit[Winit < 0]
   
-  #print('finish initialization')
-  #print(proc.time()[3])
-  
   if (method == "EucDist") {
-    #print('before C function')
-    #print(proc.time()[3])
     W <- PNMF_EucDistC(X, Winit, tol, maxIter, verboseN, zerotol) 
-    #print('after C function')
-    #print(proc.time()[3])
     ld <- t(X) %*% W
-    #print('after calculating loading')
-    #print(proc.time()[3])
   }
   else if (method == "KL") {
     W <- PNMF_KLC(X, Winit, tol, maxIter, verboseN, zerotol) 
@@ -62,8 +51,6 @@ PNMFfun <- function(X, rank=10, tol=1e-5, maxIter=5000, verboseN=FALSE, zerotol=
     W <- DPNMFC(X, Winit, tol, maxIter, verboseN, zerotol, Xord, clunum, mu, lambda) 
     ld <- t(X) %*% W
   }
-  #print('before return')
-  #print(proc.time()[3])
   
   return(list(basis=W, coef=ld))
 }

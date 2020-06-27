@@ -2,6 +2,6 @@
 
 export(PNMFfun)
 import(RcppEigen)
-importFrom(Rcpp,evalCpp)
+importFrom(Rcpp,sourceCpp)
 importFrom(irlba,irlba)
-useDynLib(QuickPNMFs, .registration=TRUE)
+useDynLib(QuickPNMFs)

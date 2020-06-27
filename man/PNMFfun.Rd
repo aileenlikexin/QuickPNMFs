@@ -7,8 +7,8 @@
 PNMFfun(
   X,
   rank = 10,
-  tol = 1e-05,
-  maxIter = 5000,
+  tol = 0.001,
+  maxIter = 500,
   verboseN = FALSE,
   zerotol = 1e-10,
   method = "KL",

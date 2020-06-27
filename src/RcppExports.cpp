@@ -6,42 +6,6 @@
 
 using namespace Rcpp;
 
-// MatFind
-Eigen::MatrixXd MatFind(Eigen::MatrixXd A, double ZeroThres);
-RcppExport SEXP _QuickPNMFs_MatFind(SEXP ASEXP, SEXP ZeroThresSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type A(ASEXP);
-    Rcpp::traits::input_parameter< double >::type ZeroThres(ZeroThresSEXP);
-    rcpp_result_gen = Rcpp::wrap(MatFind(A, ZeroThres));
-    return rcpp_result_gen;
-END_RCPP
-}
-// MatFindlb
-Eigen::MatrixXd MatFindlb(Eigen::MatrixXd A, double lb);
-RcppExport SEXP _QuickPNMFs_MatFindlb(SEXP ASEXP, SEXP lbSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type A(ASEXP);
-    Rcpp::traits::input_parameter< double >::type lb(lbSEXP);
-    rcpp_result_gen = Rcpp::wrap(MatFindlb(A, lb));
-    return rcpp_result_gen;
-END_RCPP
-}
-// SMatC
-Rcpp::List SMatC(Eigen::MatrixXd X, Eigen::VectorXi clu);
-RcppExport SEXP _QuickPNMFs_SMatC(SEXP XSEXP, SEXP cluSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type X(XSEXP);
-    Rcpp::traits::input_parameter< Eigen::VectorXi >::type clu(cluSEXP);
-    rcpp_result_gen = Rcpp::wrap(SMatC(X, clu));
-    return rcpp_result_gen;
-END_RCPP
-}
 // PNMF_EucDistC
 Eigen::MatrixXd PNMF_EucDistC(Eigen::MatrixXd X, Eigen::MatrixXd W_init, double tol, int maxIter, bool verboseN, double zerotol);
 RcppExport SEXP _QuickPNMFs_PNMF_EucDistC(SEXP XSEXP, SEXP W_initSEXP, SEXP tolSEXP, SEXP maxIterSEXP, SEXP verboseNSEXP, SEXP zerotolSEXP) {
@@ -96,9 +60,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_QuickPNMFs_MatFind", (DL_FUNC) &_QuickPNMFs_MatFind, 2},
-    {"_QuickPNMFs_MatFindlb", (DL_FUNC) &_QuickPNMFs_MatFindlb, 2},
-    {"_QuickPNMFs_SMatC", (DL_FUNC) &_QuickPNMFs_SMatC, 2},
     {"_QuickPNMFs_PNMF_EucDistC", (DL_FUNC) &_QuickPNMFs_PNMF_EucDistC, 6},
     {"_QuickPNMFs_PNMF_KLC", (DL_FUNC) &_QuickPNMFs_PNMF_KLC, 6},
     {"_QuickPNMFs_DPNMFC", (DL_FUNC) &_QuickPNMFs_DPNMFC, 10},

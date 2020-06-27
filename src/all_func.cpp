@@ -1,11 +1,18 @@
 # include <RcppEigen.h>
 # include <Eigen/Geometry>
+# include <Eigen/Eigenvalues>
+# include <cmath>
 // [[Rcpp::depends("RcppEigen")]]
 using namespace std;
 using namespace Rcpp;
 using namespace Eigen;
 
-// [[Rcpp::export]]
+double Eigennorm (MatrixXd A) {
+  MatrixXd tAA = A.adjoint() * A;
+  double sv = ::sqrt(tAA.eigenvalues().real()(0));
+  return sv;
+}
+
 Eigen::MatrixXd MatFind (Eigen::MatrixXd A, double ZeroThres) {
   Eigen::MatrixXd B;
   B.setZero(A.rows(), A.cols());
@@ -13,7 +20,6 @@ Eigen::MatrixXd MatFind (Eigen::MatrixXd A, double ZeroThres) {
   return(Atrunc);
 }
 
-// [[Rcpp::export]]
 Eigen::MatrixXd MatFindlb (Eigen::MatrixXd A, double lb) {
   Eigen::MatrixXd B;
   B.setOnes(A.rows(), A.cols());
@@ -22,9 +28,6 @@ Eigen::MatrixXd MatFindlb (Eigen::MatrixXd A, double lb) {
   return(Alb);
 }
 
-
-
-// [[Rcpp::export]]
 Rcpp::List SMatC (Eigen::MatrixXd X, Eigen::VectorXi clu) {
   int curidx = 0;
   int K = clu.size();
@@ -76,7 +79,7 @@ Eigen::MatrixXd PNMF_EucDistC(Eigen::MatrixXd X, Eigen::MatrixXd W_init, double 
     SclFactor = XXW.cwiseQuotient(SclFactor);
     W = W.cwiseProduct(SclFactor);
     
-    W /= W.norm();
+    W /= Eigennorm(W);
     W = MatFind(W, zerotol);
     
     diffW = (W_old - W).norm() / W_old.norm();
@@ -120,7 +123,7 @@ Eigen::MatrixXd PNMF_KLC(Eigen::MatrixXd X, Eigen::MatrixXd W_init, double tol, 
     SclFactor = SclFactor.cwiseQuotient(bsxfunplus);
     W = W.cwiseProduct(SclFactor);
     
-    W /= W.norm();
+    W /= Eigennorm(W);
     W = MatFind(W, zerotol);
     
     diffW = (W_old - W).norm() / W_old.norm();
@@ -169,7 +172,7 @@ Eigen::MatrixXd DPNMFC(Eigen::MatrixXd X, Eigen::MatrixXd W_init, double tol, in
     SclFactor = (2.0 * XXW + mu*(Sb_pos * W)).cwiseQuotient(SclFactor);
     W = W.cwiseProduct(SclFactor);
     
-    W /= W.norm();
+    W /= Eigennorm(W);
     W = MatFind(W, zerotol);
     
     diffW = (W_old - W).norm() / W_old.norm();

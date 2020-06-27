@@ -1,4 +1,4 @@
-#' @useDynLib QuickPNMFs, .registration=TRUE
+#' @useDynLib QuickPNMFs
 #' @import RcppEigen
-#' @importFrom Rcpp evalCpp
+#' @importFrom Rcpp sourceCpp
 NULL
