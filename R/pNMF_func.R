@@ -59,10 +59,12 @@ PNMFfun <- function(X, rank=10, tol=1e-3, maxIter=500, verboseN=FALSE, zerotol=1
   
   if (method == "EucDist") {
     W <- PNMF_EucDistC(X, Winit, tol, maxIter, verboseN, zerotol) 
+    W <- W/norm(W, "2")
     ld <- t(X) %*% W
   }
   else if (method == "KL") {
     W <- PNMF_KLC(X, Winit, tol, maxIter, verboseN, zerotol) 
+    W <- W/norm(W, "2")
     ld <- t(X) %*% W
   }
   else if (method == "DPNMF") {
@@ -76,6 +78,7 @@ PNMFfun <- function(X, rank=10, tol=1e-3, maxIter=500, verboseN=FALSE, zerotol=1
     clunum <- as.integer(table(cluvec))
     
     W <- DPNMFC(X, Winit, tol, maxIter, verboseN, zerotol, Xord, clunum, mu, lambda) 
+    W <- W/norm(W, "2")
     ld <- t(X) %*% W
   }
   
